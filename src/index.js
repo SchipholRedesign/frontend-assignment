@@ -1,1 +1,2 @@
-console.log('Entry point'); // eslint-disable-line
+console.log('Entry points'); // eslint-disable-line
+import '../sass/index.scss'
