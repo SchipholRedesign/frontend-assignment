@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>frontend-assignment-michael-borisov</title>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="favicon-32x32.png" />
+  </head>
+  <body>
+    <form id="flight-search-form">
+      <input
+        id="flight-search-input"
+        type="search"
+        class="rw-input-text"
+        placeholder="flight number"
+      />
+      <button class="rw-button" type="submit">
+        <span class="rw-button__text">Button</span>
+        <svg
+          aria-hidden="true"
+          class="rw-icon rw-icon--arrow-right"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="currentcolor"
+            d="M12 6.3l-1.4 1.5 3.2 3.2H6v2h7.8l-3.2 3.2 1.4 1.5 5.7-5.7L12 6.3z"
+          ></path>
+        </svg>
+      </button>
+    </form>
+    <table id="flight-search-table" class="rw-table hidden">
+      <caption>
+        Flights
+      </caption>
+      <tbody>
+        <tr>
+          <td>7.0%</td>
+          <td>€ 189, 63</td>
+          <td>€ 156,71</td>
+          <td>€ 12,71</td>
+        </tr>
+        <tr>
+          <td>10.0%</td>
+          <td>€ 184,50</td>
+          <td>€ 152,48</td>
+          <td>€ 16,94</td>
+        </tr>
+        <tr>
+          <td>13.0%</td>
+          <td>€ 214,50</td>
+          <td>€ 52,48</td>
+          <td>€ 26,94</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table id="flight-search-empty" class="rw-table hidden">
+      <caption>
+        No flights found...
+      </caption>
+    </table>
+
+    <script src="bundle.js"></script>
+  </body>
+</html>

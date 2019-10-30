@@ -1,0 +1,16 @@
+$background-icons-path: '../icons';
+@import '../sass/index';
+
+#flight-search-form {
+  button {
+    float: right;
+  }
+}
+
+#flight-table-row-template {
+  display: none;
+}
+
+.hidden {
+  display: none;
+}
