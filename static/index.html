@@ -3,6 +3,43 @@
 <head>
   <title>Schiphol | Start your journey well at our airport</title>
   <script defer src="/js/index.js"></script>
+  <style type="text/css">
+    main {
+      margin: 4rem auto;
+      width: 80vw;
+    }
+  </style>
 </head>
-<body>foo</body>
+<body>
+<main>
+  <label>
+    Search flights
+    <input
+        class="rw-input-text"
+        type="search"
+        placeholder="flight number or destination"
+        data-component="search"
+        data-endpoint="/api/flights?s="
+        data-target-selector="[data-component=table]"
+    >
+  </label>
+  <table data-component="table">
+    <thead>
+      <tr>
+        <th data-key="flightNumber">flight nr</th>
+        <th data-key="airport">airport</th>
+        <th data-key="expectedTime">expected time</th>
+        <th data-key="originalTime">original time</th>
+        <th data-key="score">score</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td colspan="7">no results</td>
+    </tr>
+    </tbody>
+  </table>
+</main>
+
+</body>
 </html>
