@@ -20,17 +20,17 @@
         placeholder="flight number or destination"
         data-component="search"
         data-endpoint="/api/flights?s="
-        data-target-selector="[data-component=table]"
+        data-target-selector="#flightTable"
     >
   </label>
-  <table data-component="table">
+  <table data-component="table" id="flightTable" data-template="#flightTableRow">
     <thead>
       <tr>
-        <th data-key="flightNumber">flight nr</th>
-        <th data-key="airport">airport</th>
-        <th data-key="expectedTime">expected time</th>
-        <th data-key="originalTime">original time</th>
-        <th data-key="score">score</th>
+        <th>flight nr</th>
+        <th>airport</th>
+        <th>expected time</th>
+        <th>original time</th>
+        <th>score</th>
       </tr>
     </thead>
     <tbody>
@@ -39,6 +39,17 @@
     </tr>
     </tbody>
   </table>
+  <template id="flightTableRow">
+    <tr>
+      <th data-content="flightNumber"></th>
+      <th data-content="airport"></th>
+      <th data-content="expectedTime"></th>
+      <th data-content="originalTime"></th>
+      <th>
+        <div data-component="score" data-attr="score"></div>
+      </th>
+    </tr>
+  </template>
 </main>
 
 </body>

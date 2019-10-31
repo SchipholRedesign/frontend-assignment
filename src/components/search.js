@@ -6,27 +6,29 @@ import {component} from './component'
  * @param componentInstances
  * @return {Component}
  */
-export function search(element, componentInstances){
-  return component(element, componentInstances, /** @param {Component} inst */ inst => {
-    const {element, getInstance} = inst;
-    const {endpoint, targetSelector} = element.dataset;
-    const targetInstance = getInstance(document.querySelector(targetSelector))
-    const boundChange = onInputChange.bind(null, endpoint, targetInstance);
-    ['change', 'input'].forEach(event=>element.addEventListener(event, boundChange))
-  });
-}
+export const search = component(null,()=>({_value:{ value: '', writable: true, enumerable: false, configurable: false }})).loaded(inst=>{
+  const {element} = inst
+  const {endpoint, targetSelector} = element.dataset
+  const targetInstance = inst.getInstance(document.querySelector(targetSelector))
+  const boundChange = onInputChange.bind(null, inst, endpoint, targetInstance)
+  ;['change', 'input'].forEach(event=>element.addEventListener(event, boundChange))
+})
 
 /**
- * Bound eventlistener for querying server
+ * Bound event listener for querying server
+ * @param {Component} inst
  * @param {string} endpoint
  * @param {Component} targetInstance
  * @param {Event} e
  */
-function onInputChange(endpoint, targetInstance, e){
+function onInputChange(inst, endpoint, targetInstance, e){
   const {target:{value,value:{length}}} = e
-  length>2
-    && fetch(endpoint+value)
-        .then(res=>res.json())
-        .then(data=>targetInstance.populate(data))
-    || targetInstance.populate([])
+  if (inst._value!==value) {
+    inst._value = value
+    length>2
+      && fetch(endpoint+value)
+          .then(res=>res.json())
+          .then(data=>targetInstance.populate(data))
+      || targetInstance.populate([])
+  }
 }
