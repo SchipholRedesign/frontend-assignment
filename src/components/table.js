@@ -1,5 +1,5 @@
 import {component} from './component'
-import {makePropject} from '../util'
+import {clearElement, makePropject} from '../util'
 
 /**
  * A generic table component
@@ -16,37 +16,61 @@ export const table = component({
    * @memberof TableComponent#
    */
   populate(data){
-    if (this._bodyTr) {
-      // console.log('this.instantiate',this._instantiate) // todo: remove log
-      replaceTableBody(this._tbody, data, this._bodyTr)
-      this._instantiate(this._tbody)
-      // const tr = this._bodyTr.content
+    const {_tbody, _bodyTr, _emptybody} = this
+    if (data.length) {
+      _bodyTr
+        && populateByTemplate(_tbody, data, _bodyTr)
+        || populateByKeys(_tbody, data, this._propertyKeys)
+      this._instantiate(_tbody)
     } else {
-      this._tbody.innerHTML = data.length
-          &&flatMapBodyTR(data, this._propertyKeys).join('')
-          ||this._emptybody
+      _emptybody && !_tbody.contains(_emptybody) && clearElement(_tbody).appendChild(_emptybody)
     }
   }
-}, (element, componentInstances, instantiate) => {
+}, (element/*, componentInstances, instantiate*/) => {
   const _tbody = element.querySelector('tbody')
-  const _emptybody = _tbody.innerHTML
-  const _propertyKeys = [...element.querySelectorAll('thead>tr>th')].map(th=>th.dataset.key)
+  const _emptybody = _tbody.children[0]
+  const _propertyKeys = [...element.querySelectorAll('thead>tr>th')].map(th=>th.dataset.key).filter(o=>o)
   const {template} = element.dataset
   const _bodyTr = template&&element.ownerDocument.querySelector(template)
   return makePropject({_tbody, _emptybody, _propertyKeys, _bodyTr})
 })
 
-function flatMapBodyTR(data, propertyKeys){
-  return data.map(entry=>`<tr>
-    ${propertyKeys.map(key=>`<td>${entry[key]}</td>`).join('')}
-  </tr>`)
+/**
+ * Populate body with data reference from thead>tr>th[data-key].
+ * If no keys are set it will default to all the data values.
+ * @param {HTMLElement} tbody
+ * @param {object} data
+ * @param {string[]} propertyKeys
+ * @return {HTMLElement}
+ */
+function populateByKeys(tbody, data, propertyKeys){
+  propertyKeys.length===0&&propertyKeys.push(...Object.keys(data?.[0]))
+  const fragment = document.createDocumentFragment()
+  data.forEach(entry=>{
+    const tr = document.createElement('tr')
+    propertyKeys.forEach(key=>{
+      const td = document.createElement('td')
+      td.innerText = entry[key]
+      tr.appendChild(td)
+    })
+    fragment.appendChild(tr)
+  })
+  clearElement(tbody).appendChild(fragment)
+  return tbody
 }
 
-function replaceTableBody(tbody, data, template){
-  while (tbody.firstChild) tbody.firstChild.remove()
+/**
+ *
+ * @param {HTMLElement} tbody
+ * @param {object} data
+ * @param {HTMLTemplateElement} template
+ * @return {HTMLElement}
+ */
+function populateByTemplate(tbody, data, template){
+  clearElement(tbody)
 	const fragment = document.createDocumentFragment()
   data.forEach(item=>{
-    const tr = document.importNode(template.content, true);
+    const tr = document.importNode(template.content, true)
     ;[...tr.querySelectorAll('[data-content]')].forEach(elm=>{
       elm.textContent = item[elm.dataset.content]
     })
@@ -56,5 +80,5 @@ function replaceTableBody(tbody, data, template){
     fragment.appendChild(tr)
   })
   tbody.appendChild(fragment)
-
+  return tbody
 }

@@ -11,3 +11,13 @@ export function makePropject(obj){
     return acc
   }, {})
 }
+
+/**
+ * Clear element contents
+ * @param {HTMLElement} elm
+ * @return {HTMLElement}
+ */
+export function clearElement(elm) {
+  while (elm.firstChild) elm.firstChild.remove()
+  return elm
+}

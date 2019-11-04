@@ -28,7 +28,7 @@ function componentFactory(_element, _componentInstances, _proto, _props){
  * @return {Function}
  */
 export function component(_proto, create) {
-  // inline base proto for getter
+  // inline base prototype for getter declaration
   const proto = {
     /**
      * The component element
