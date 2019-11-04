@@ -1,5 +1,5 @@
 import {table} from './table'
-import {duckTypeComponent} from '../../jest'
+import {duckTypeComponent} from '../../test/jest'
 
 test('table should instantiate a component', () => {
   const elmTable = document.createElement('table')
