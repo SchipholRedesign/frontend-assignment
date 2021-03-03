@@ -1,1 +1,1 @@
-console.log('Entry point'); // eslint-disable-line
+console.log('Entry point');
